@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  chroot:
+    domainname: lincourse.lan
+    build:
+      context: clients
+    restart: always
+    command: /bin/bash -c "/usr/sbin/ipa-client-install --domain lincourse.lan --server kojima.lincourse.lan -p admin -w '123' --mkhomedir --all-ip-addresses --enable-dns-updates --force-join -U -N; /usr/sbin/sssd; /usr/sbin/sshd -D"
+    ports:
+      - 5001-5020:22
+      - 6001-6020:80
+      - 7001-7020:88
+      - 9001-9020:464
+      - 10001-10020:389
