@@ -1,0 +1,10 @@
+echo "" > users
+for i in {1..20} 
+do
+	echo -n "user$i " >> users &&
+	PASS=$(openssl rand 5 | base64 | sed s/=/a/g) &&
+	echo "$PASS" >> users &&
+	echo -e "$PASS\n$PASS" | ipa user-add --password --first=user$i --last=user$i --cn=user$1 --displayname=user$1 --shell=/bin/bash --initials=user$i user$i &&
+	ipa user-mod user$i --setattr=krbpasswordexpiration=20250606060606Z && 
+	echo "DONE" || echo "FAIL";
+done
